@@ -34,7 +34,7 @@
             </form>  
         </div>
         <div class="col-12 col-md-8">
-            <total-proyecto :numeroProyectos="numeroProyectos" :proyectos="proyectos" :cambiarEstado="cambiarEstado"/>
+            <total-proyecto :numeroProyectos="numeroProyectos" :proyectos="proyectos" :cambiarEstado="cambiarEstado" :limpiarData="limpiarData" />
             <!-- <pre>
                 {{ proyecto }}
                 {{ tipo }}
@@ -51,51 +51,73 @@
 </template>
 
 <script>
+import { onMounted } from 'vue';
 import Progressbar from './ProgressBar.vue';
 import TotalProyecto from './TotalProyecto.vue';
     export default{
-    data: () => ({
-        proyecto: "",
-        tipo: "",
-        urgente: false,
-        proyectos: [],
-    }),
-    methods: {
-        registrarProyecto() {
-            const proyecto = {
-                proyecto: this.proyecto,
-                tipo: this.tipo,
-                urgente: this.urgente,
-                completado: false,
-            };
-            this.proyectos.push(proyecto);
-            this.proyecto = "";
-            this.tipo = "";
-            this.urgente = false;
+        data: () => ({
+            proyecto: "",
+            tipo: "",
+            urgente: false,
+            proyectos: [],
+        }),
+        methods: {
+            registrarProyecto() {
+                const proyecto = {
+                    proyecto: this.proyecto,
+                    tipo: this.tipo,
+                    urgente: this.urgente,
+                    completado: false,
+                };
+                this.proyectos.push(proyecto);
+
+                this.saveData();
+
+                this.proyecto = "";
+                this.tipo = "";
+                this.urgente = false;
+            },
+            cambiarEstado(proyecto, campo) {
+                // el signo de admiracion lo cambia
+                // this.proyectos[id].urgente = !this.proyectos[id].urgente;
+                // console.log(proyecto, campo);
+                proyecto[campo] = !proyecto[campo];
+                this.saveData();
+            },
+            saveData(){
+                // esto lleva dos parametros, a donde va y le vamos a incrustrar
+                localStorage.setItem("proyectos", JSON.stringify(this.proyectos));
+            },
+            limpiarData(){
+                this.proyectos = [];
+                localStorage.clear();
+            },
         },
-        cambiarEstado(proyecto, campo) {
-            // el signo de admiracion lo cambia
-            // this.proyectos[id].urgente = !this.proyectos[id].urgente;
-            // console.log(proyecto, campo);
-            proyecto[campo] = !proyecto[campo];
-        }
-    },
-    // propiedades computadas
-    computed: {
-        numeroProyectos() {
-            return this.proyectos.length;
+        // propiedades computadas
+        computed: {
+            numeroProyectos() {
+                return this.proyectos.length;
+            },
+            porcentaje() {
+                let completados = 0;
+                
+                this.proyectos.map(proyecto => {
+                    if (proyecto.completado)
+                        completados++;
+                });
+                return (completados * 100) / this.numeroProyectos || 0;
+            },
         },
-        porcentaje() {
-            let completados = 0;
-            
-            this.proyectos.map(proyecto => {
-                if (proyecto.completado)
-                    completados++;
-            });
-            return (completados * 100) / this.numeroProyectos || 0;
-        }
-    },
-    components: { Progressbar, TotalProyecto }
-};
+        components: { 
+            Progressbar, 
+            TotalProyecto 
+        },
+
+        mounted(){
+            this.proyectos =  JSON.parse(localStorage.getItem("proyectos")) || [];
+        },
+    };
+    
+
 </script>
 

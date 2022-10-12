@@ -1,9 +1,16 @@
 <template>
-    <hr>
-    <h3>
-        <!-- propiedades calculadas| computadas -->
-        Total Proyectos: {{ numeroProyectos }}
-    </h3>
+    <div class="row">
+        <div class="col-6 my-2">
+            <h3>
+                <!-- propiedades calculadas| computadas -->
+                Total Proyectos: {{ numeroProyectos }}
+            </h3>
+        </div>
+        <div class="col-6 text-end">
+            <button @click="limpiarData" class="btn btn-warning" >Limpiar poyectos</button>
+        </div>
+    </div>
+
     <div class="table-responsive">
         <!-- el over nos sirve para pintar -->
         <table class="table table-dark table-hover">
@@ -34,6 +41,6 @@
 
 <script>
     export default{
-        props: ['numeroProyectos','proyectos', 'cambiarEstado'],
-    }
+        props: ['numeroProyectos','proyectos', 'cambiarEstado', 'limpiarData'],
+    };
 </script>
