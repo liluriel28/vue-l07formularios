@@ -90,6 +90,7 @@ import TotalProyecto from './TotalProyecto.vue';
             },
             borrarData(index){
                 this.proyectos.splice(index,1);
+                this.saveData();
             },
         },
         // propiedades computadas
@@ -114,7 +115,7 @@ import TotalProyecto from './TotalProyecto.vue';
 
         mounted(){
             this.proyectos =  JSON.parse(localStorage.getItem("proyectos")) || [];
-            this.proyecto = JSON.parse(localStorage.removeItem("proyectos")) || []; 
+            
 
         },
     };
