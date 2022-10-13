@@ -34,7 +34,7 @@
             </form>  
         </div>
         <div class="col-12 col-md-8">
-            <total-proyecto :numeroProyectos="numeroProyectos" :proyectos="proyectos" :cambiarEstado="cambiarEstado" :limpiarData="limpiarData" />
+            <total-proyecto :numeroProyectos="numeroProyectos" :proyectos="proyectos" :cambiarEstado="cambiarEstado" :limpiarData="limpiarData" :borrarData="borrarData" />
             <!-- <pre>
                 {{ proyecto }}
                 {{ tipo }}
@@ -43,10 +43,6 @@
 
         </div>
     </div>
-
-    
-    
-    
     
 </template>
 
@@ -92,6 +88,9 @@ import TotalProyecto from './TotalProyecto.vue';
                 this.proyectos = [];
                 localStorage.clear();
             },
+            borrarData(index){
+                this.proyectos.splice(index,1);
+            },
         },
         // propiedades computadas
         computed: {
@@ -115,6 +114,8 @@ import TotalProyecto from './TotalProyecto.vue';
 
         mounted(){
             this.proyectos =  JSON.parse(localStorage.getItem("proyectos")) || [];
+            this.proyecto = JSON.parse(localStorage.removeItem("proyectos")) || []; 
+
         },
     };
     

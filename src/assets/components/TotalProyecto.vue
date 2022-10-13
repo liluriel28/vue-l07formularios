@@ -21,6 +21,7 @@
                     <th>Tipo</th>
                     <th>Urgente</th>
                     <th>Completado</th>
+                    <th class="bg-warning">Borrar</th>
                 </tr>
             </thead>
 
@@ -30,8 +31,11 @@
                     <td> {{ proyecto.proyecto }} </td>
                     <td> {{ proyecto.tipo }} </td>
                     <!-- operador ternario -->
-                    <td @click="cambiarEstado(proyecto, 'urgente')" :class="proyecto.urgente ? 'bg-success' : 'bg-danger'"> {{ proyecto.urgente ? "Si" : "No" }} </td>
-                    <td @click="cambiarEstado(proyecto, 'completado')" :class="proyecto.completado ? 'bg-success' : 'bg-danger'"> {{ proyecto.completado ? "Completo" : "Incompleto" }} </td>
+                    <td @click="cambiarEstado(proyecto, 'urgente')" :class="proyecto.urgente ? 'bg-success' : 'bg-danger'"> {{ proyecto.urgente ? "Si" : "No" }} 
+                    </td>
+                    <td @click="cambiarEstado(proyecto, 'completado')" :class="proyecto.completado ? 'bg-success' : 'bg-danger'"> {{ proyecto.completado ? "Completo" : "Incompleto" }}
+                    </td>
+                    <td @click="borrarData(index)" class="bg-primary">Borrar</td>
                 </tr>
             </tbody>
         </table>
@@ -41,6 +45,6 @@
 
 <script>
     export default{
-        props: ['numeroProyectos','proyectos', 'cambiarEstado', 'limpiarData'],
+        props: ['numeroProyectos','proyectos', 'cambiarEstado', 'limpiarData', 'borrarData'],
     };
 </script>
